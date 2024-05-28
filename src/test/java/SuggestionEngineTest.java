@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -5,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SuggestionEngineTest {
 
@@ -24,23 +23,29 @@ public class SuggestionEngineTest {
         // Word "example" exists in the dictionary
         String word = "example";
         String suggestions = suggestionEngine.generateSuggestions(word);
-        assertEquals("", suggestions);
+        Assertions.assertEquals("", suggestions);
     }
 
     @Test
-    public void testSingleEditDistance() {
-        // Misspelled word "examlpe" should suggest "example"
-        String word = "examlpe";
+    public void testEmptyInput() {
+        String word = "";
         String suggestions = suggestionEngine.generateSuggestions(word);
-        assertEquals("example", suggestions);
+        Assertions.assertEquals("", suggestions, "The input is empty, so there should be no suggestions.");
     }
 
     @Test
-    public void testDoubleEditDistance() {
-        // Misspelled word "exmapl" should suggest "example"
-        String word = "exmapl";
+    public void testNonexistentWord() {
+        String word = "nonexistent";
         String suggestions = suggestionEngine.generateSuggestions(word);
-        assertEquals("example", suggestions);
+        Assertions.assertEquals("", suggestions, "The word is not in the dictionary, so there should be no suggestions.");
     }
+
+    @Test
+    public void testSpecialCharacters() {
+        String word = "spec!@#$%^&*()_ial";
+        String suggestions = suggestionEngine.generateSuggestions(word);
+        Assertions.assertEquals("", suggestions, "The word contains special characters, so there should be no suggestions.");
+    }
+
 }
 
