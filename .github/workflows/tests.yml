@@ -2,9 +2,9 @@ name: Java CI with Maven
 
 on:
   pull_request:
-    branches: [ main ] # Change to 'master' if your default branch is 'master'
+    branches: [ main ] 
   push:
-    branches: [ main ] # Change to 'master' if your default branch is 'master'
+    branches: [ main ]
 
 jobs:
   build:
@@ -19,8 +19,5 @@ jobs:
         with:
           java-version: '17'
 
-      - name: Build with Maven
-        run: mvn -B clean package --file pom.xml
-
-      - name: Run unit tests
-        run: mvn test --file pom.xml
+      - name: Build and Test with Maven
+        run: mvn -B clean verify
